@@ -1,73 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 
-class AiDiagnosisPage extends StatefulWidget {
+class AiDiagnosisPage extends StatelessWidget {
   const AiDiagnosisPage({Key? key}) : super(key: key);
-
-  @override
-  _AIDiagnosisPageState createState() => _AIDiagnosisPageState();
-}
-
-class _AIDiagnosisPageState extends State<AiDiagnosisPage> {
-  final List<Map<String, dynamic>> surveyQuestions = [
-    {
-      'question': 'How does your child communicate?',
-      'options': ['Uses basic language', 'Uses advanced language', 'Non-verbal'],
-    },
-    {
-      'question': 'How would you rate your child’s ability to engage?',
-      'options': ['Very good', 'Good', 'Fair'],
-    },
-    {
-      'question': 'Do you observe any unusual speech patterns?',
-      'options': ['Yes', 'No'],
-    },
-    {
-      'question': 'How does your child interact with peers?',
-      'options': ['No issues', 'Somewhat social', 'Avoidant', 'No response'],
-    },
-  ];
-
-  int currentQuestionIndex = 0;
-  Map<int, List<String>> selectedAnswers = {}; // To store selected answers
-
-  void moveToNextQuestion(BuildContext context) {
-    if (currentQuestionIndex == surveyQuestions.length - 1) {
-      _showInstructionsDialog(context);
-    } else {
-      setState(() {
-        currentQuestionIndex++;
-      });
-    }
-  }
-
-  void _showInstructionsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Instructions for Recording Videos'),
-          content: const Text(
-            '1. Ensure good lighting when recording.\n'
-                '2. Focus on the child’s face and movements.\n'
-                '3. Keep the child engaged during the recording.\n'
-                '4. Ensure that the audio is clear.\n',
-            style: TextStyle(fontSize: 16),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const UploadPage()),
-                );
-              },
-              child: const Text('I understand'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,42 +17,190 @@ class _AIDiagnosisPageState extends State<AiDiagnosisPage> {
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SurveyPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                shadowColor: const Color(0xFFB2A4D4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              ),
+              child: const Text('Survey'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const UploadPhotosPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                shadowColor: const Color(0xFFB2A4D4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              ),
+              child: const Text('Upload Photos'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Survey Page
+class SurveyPage extends StatefulWidget {
+  const SurveyPage({Key? key}) : super(key: key);
+
+  @override
+  _SurveyPageState createState() => _SurveyPageState();
+}
+
+class _SurveyPageState extends State<SurveyPage> {
+  final List<Map<String, String>> surveyQuestions = [
+    {
+      'qID': 'Q1',
+      'question_text': 'Does your child look at you when you call his/her name?'
+    },
+    {
+      'qID': 'Q2',
+      'question_text':
+          'How easy is it for you to get eye contact with your child?'
+    },
+    {
+      'qID': 'Q3',
+      'question_text':
+          'Does your child point to indicate that s/he wants something?'
+    },
+    {
+      'qID': 'Q4',
+      'question_text': 'Does your child point to share interest with you?'
+    },
+    {
+      'qID': 'Q5',
+      'question_text':
+          'Does your child pretend? (e.g. care for dolls, talk on a toy phone)'
+    },
+    {
+      'qID': 'Q6',
+      'question_text': 'Does your child follow where you’re looking?'
+    },
+    {
+      'qID': 'Q7',
+      'question_text':
+          'If someone is visibly upset, does your child show signs of comforting them?'
+    },
+    {
+      'qID': 'Q8',
+      'question_text': 'Would you describe your child’s first words as?'
+    },
+    {
+      'qID': 'Q9',
+      'question_text':
+          'Does your child use simple gestures? (e.g. wave goodbye)'
+    },
+    {
+      'qID': 'Q10',
+      'question_text':
+          'Does your child stare at nothing with no apparent purpose?'
+    },
+  ];
+
+  int currentQuestionIndex = 0;
+  Map<String, int> answers = {};
+
+  Future<void> saveAnswersToFirestore(Map<String, int> answers) async {
+    try {
+      final CollectionReference answersCollection =
+          FirebaseFirestore.instance.collection('answers');
+
+      await answersCollection.add({
+        'user_id': FirebaseAuth.instance.currentUser?.uid ?? "unknown_user",
+        'timestamp': Timestamp.now(),
+        'answers': answers,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Responses saved successfully!")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error saving responses: $e")),
+      );
+    }
+  }
+
+  void moveToNextQuestion() {
+    if (currentQuestionIndex == surveyQuestions.length - 1) {
+      saveAnswersToFirestore(answers);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Survey Completed'),
+            content: const Text('Your responses have been saved successfully.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      setState(() {
+        currentQuestionIndex++;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Survey'),
+        backgroundColor: const Color(0xFFB2A4D4),
+      ),
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
+            children: [
               Text(
-                surveyQuestions[currentQuestionIndex]['question'],
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                surveyQuestions[currentQuestionIndex]['question_text']!,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              for (var option in surveyQuestions[currentQuestionIndex]['options'])
-                CheckboxListTile(
-                  title: Text(option),
-                  value: selectedAnswers[currentQuestionIndex]?.contains(option) ?? false,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      if (value == true) {
-                        selectedAnswers.putIfAbsent(currentQuestionIndex, () => []).add(option);
-                      } else {
-                        selectedAnswers[currentQuestionIndex]?.remove(option);
-                      }
-                    });
-                  },
-                ),
-              const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: selectedAnswers.containsKey(currentQuestionIndex) && selectedAnswers[currentQuestionIndex]!.isNotEmpty
-                    ? () => moveToNextQuestion(context)
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFB2A4D4),
-                  padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                ),
-                child: const Text('Next'),
+                onPressed: () {
+                  answers[surveyQuestions[currentQuestionIndex]['qID']!] = 1;
+                  moveToNextQuestion();
+                },
+                child: const Text('Yes'),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  answers[surveyQuestions[currentQuestionIndex]['qID']!] = 0;
+                  moveToNextQuestion();
+                },
+                child: const Text('No'),
               ),
             ],
           ),
@@ -122,98 +210,101 @@ class _AIDiagnosisPageState extends State<AiDiagnosisPage> {
   }
 }
 
-class UploadPage extends StatelessWidget {
-  const UploadPage({Key? key}) : super(key: key);
+// Upload Photos Page
+class UploadPhotosPage extends StatefulWidget {
+  const UploadPhotosPage({Key? key}) : super(key: key);
 
-  void _showVideoInstructions(BuildContext context, String title, String instructions) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(
-            instructions,
-            style: const TextStyle(fontSize: 16),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('I Understand'),
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  _UploadPhotosPageState createState() => _UploadPhotosPageState();
+}
+
+class _UploadPhotosPageState extends State<UploadPhotosPage> {
+  final ImagePicker _picker = ImagePicker();
+  List<File> selectedImages = [];
+  bool _isLoading = false;
+
+  Future<void> pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        selectedImages.add(File(pickedFile.path));
+      });
+    }
+  }
+
+  Future<void> uploadImagesToFirebase() async {
+    setState(() => _isLoading = true);
+
+    try {
+      List<String> imageUrls = [];
+      for (var image in selectedImages) {
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('user_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+        await ref.putFile(image);
+        String imageUrl = await ref.getDownloadURL();
+        imageUrls.add(imageUrl);
+      }
+
+      await FirebaseFirestore.instance.collection('uploads').add({
+        'user_id': FirebaseAuth.instance.currentUser?.uid ?? "unknown_user",
+        'timestamp': Timestamp.now(),
+        'images': imageUrls,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Images uploaded successfully!")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error uploading images: $e")),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Upload Videos'),
+        title: const Text('Upload Photos'),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'Please upload the recorded videos:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () {
-                  _showVideoInstructions(
-                    context,
-                    'Child Playing Instructions',
-                    'Record the child while playing with toys or objects. Ensure the child is engaged and interacting naturally. Record from a distance that captures their face and body movements clearly.',
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: pickImage,
+              child: const Text('Pick Image'),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 150,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: selectedImages.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.all(8.0),
+                    child: Image.file(
+                      selectedImages[index],
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFB2A4D4),
-                  fixedSize: const Size(200, 50),
-                ),
-                child: const Text('Child Playing'),
               ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  _showVideoInstructions(
-                    context,
-                    'Child Watching TV Instructions',
-                    'Record the child while watching TV. Ensure their facial expressions and reactions to the screen are clearly visible. Avoid background noise as much as possible.',
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFB2A4D4),
-                  fixedSize: const Size(200, 50),
-                ),
-                child: const Text('Child Watching TV'),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  _showVideoInstructions(
-                    context,
-                    'Child Communicating Instructions',
-                    'Record the child while communicating with others. This could include speaking, using gestures, or any other form of interaction. Ensure the child’s face and hands are clearly visible.',
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFB2A4D4),
-                  fixedSize: const Size(200, 50),
-                ),
-                child: const Text('Child Communicating'),
-              ),
-            ],
-          ),
+            ),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: uploadImagesToFirebase,
+                    child: const Text('Upload Images'),
+                  ),
+          ],
         ),
       ),
     );

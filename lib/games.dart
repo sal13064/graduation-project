@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'contentview.dart'; 
-import 'emotions_game.dart';  
+import 'package:graduation/NumberAndColorGame.dart';
+import 'package:graduation/social_skills_game.dart';
+import 'contentview.dart';
+import 'emotions_game.dart';
 
 class GamesPage extends StatelessWidget {
   const GamesPage({super.key});
@@ -16,15 +18,15 @@ class GamesPage extends StatelessWidget {
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => ContentView()), 
-                  (route) => false, 
+              MaterialPageRoute(builder: (context) => ContentView()),
+              (route) => false,
             );
           },
         ),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, 
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
               onPressed: () {
@@ -35,26 +37,47 @@ class GamesPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFB2A4D4),
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
               ),
               child: const Text(
                 'Emotions Game',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(height: 20), 
-
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                print('Game 2 button pressed');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SocialSkillsGame()),
+                );
               },
-              
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFB2A4D4),
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
               ),
               child: const Text(
-                'Game 2',
+                'SocialSkillsGame',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NumberColorGame()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFB2A4D4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+              ),
+              child: const Text(
+                'Number and Color Game',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
@@ -64,5 +87,3 @@ class GamesPage extends StatelessWidget {
     );
   }
 }
-
-

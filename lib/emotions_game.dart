@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'games.dart'; 
+import 'games.dart';
 
 void main() {
   runApp(const EmotionsGame());
@@ -29,7 +29,8 @@ class _EmotionsHomePageState extends State<EmotionsHomePage> {
   List<Map<String, dynamic>> steps = [
     {
       "image": "assets/happy.jpg",
-      "description": "This is a happy face. It means feeling joy and being cheerful."
+      "description":
+          "This is a happy face. It means feeling joy and being cheerful."
     },
     {
       "image": "assets/sad.jpg",
@@ -37,15 +38,18 @@ class _EmotionsHomePageState extends State<EmotionsHomePage> {
     },
     {
       "image": "assets/angry.jpg",
-      "description": "This is an angry face. It means feeling mad or frustrated."
+      "description":
+          "This is an angry face. It means feeling mad or frustrated."
     },
     {
       "image": "assets/surprised.jpg",
-      "description": "This is a surprised face. It means feeling amazed or shocked."
+      "description":
+          "This is a surprised face. It means feeling amazed or shocked."
     },
     {
       "image": "assets/scared.jpg",
-      "description": "This is a scared face. It means feeling afraid of something."
+      "description":
+          "This is a scared face. It means feeling afraid of something."
     },
     {
       "image": "assets/screaming_angry.jpg",
@@ -53,19 +57,23 @@ class _EmotionsHomePageState extends State<EmotionsHomePage> {
     },
     {
       "image": "assets/screaming_scared.jpg",
-      "description": "This is a screaming scared face. It shows being very afraid."
+      "description":
+          "This is a screaming scared face. It shows being very afraid."
     },
     {
       "image": "assets/shy.jpg",
-      "description": "This is a shy face. It means feeling a little embarrassed."
+      "description":
+          "This is a shy face. It means feeling a little embarrassed."
     },
     {
       "image": "assets/excited.jpg",
-      "description": "This is an excited face. It means feeling very happy and eager."
+      "description":
+          "This is an excited face. It means feeling very happy and eager."
     },
     {
       "image": "assets/bored.jpg",
-      "description": "This is a bored face. It means feeling tired of doing nothing fun."
+      "description":
+          "This is a bored face. It means feeling tired of doing nothing fun."
     }
   ];
 
@@ -172,99 +180,100 @@ class _EmotionsHomePageState extends State<EmotionsHomePage> {
         padding: const EdgeInsets.all(16.0),
         child: !inQuizMode
             ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              steps[currentStep]['image']!,
-              height: 200,
-              errorBuilder: (context, error, stackTrace) {
-                return const Text(
-                  "Image not available",
-                  style: TextStyle(fontSize: 18, color: Colors.red),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            Text(
-              steps[currentStep]['description'],
-              style: const TextStyle(fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: nextStep,
-              child: const Text("Next"),
-            )
-          ],
-        )
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    steps[currentStep]['image']!,
+                    height: 200,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Text(
+                        "Image not available",
+                        style: TextStyle(fontSize: 18, color: Colors.red),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    steps[currentStep]['description'],
+                    style: const TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: nextStep,
+                    child: const Text("Next"),
+                  )
+                ],
+              )
             : quizIndex < quiz.length
-            ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              quiz[quizIndex]['image']!,
-              height: 200,
-              errorBuilder: (context, error, stackTrace) {
-                return const Text(
-                  "Image not available",
-                  style: TextStyle(fontSize: 18, color: Colors.red),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            GridView.builder(
-              shrinkWrap: true,
-              gridDelegate:
-              const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-              ),
-              itemCount: shuffledAnswers.length,
-              itemBuilder: (context, index) {
-                return ElevatedButton(
-                  onPressed: () => checkAnswer(shuffledAnswers[index]),
-                  child: Text(shuffledAnswers[index]),
-                );
-              },
-            ),
-          ],
-        )
-            : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Game Over! Your score: $score / ${quiz.length}\n${getResultMessage()}",
-              style: const TextStyle(
-                  fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  currentStep = 0;
-                  inQuizMode = false;
-                  quizIndex = 0;
-                  score = 0;
-                  shuffleAnswers();
-                });
-              },
-              child: const Text("Restart"),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const GamesPage()),
-                );
-              },
-              child: const Text("Back to Games"),
-            )
-          ],
-        ),
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        quiz[quizIndex]['image']!,
+                        height: 200,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Text(
+                            "Image not available",
+                            style: TextStyle(fontSize: 18, color: Colors.red),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                        ),
+                        itemCount: shuffledAnswers.length,
+                        itemBuilder: (context, index) {
+                          return ElevatedButton(
+                            onPressed: () =>
+                                checkAnswer(shuffledAnswers[index]),
+                            child: Text(shuffledAnswers[index]),
+                          );
+                        },
+                      ),
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Game Over! Your score: $score / ${quiz.length}\n${getResultMessage()}",
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            currentStep = 0;
+                            inQuizMode = false;
+                            quizIndex = 0;
+                            score = 0;
+                            shuffleAnswers();
+                          });
+                        },
+                        child: const Text("Restart"),
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const GamesPage()),
+                          );
+                        },
+                        child: const Text("Back to Games"),
+                      )
+                    ],
+                  ),
       ),
     );
   }
