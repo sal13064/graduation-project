@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'contentview.dart';
 import 'signup.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, required this.changeLanguage});
+  final Function(Locale) changeLanguage;
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -23,7 +25,10 @@ class _LoginPageState extends State<LoginPage> {
       );
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const ContentView()),
+        MaterialPageRoute(
+            builder: (context) => ContentView(
+                  changeLanguage: widget.changeLanguage,
+                )),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -36,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: Text(AppLocalizations.of(context)!.login_title),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Padding(
@@ -47,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
-                labelText: 'Email',
+                labelText: AppLocalizations.of(context)!.email,
                 border: OutlineInputBorder(),
               ),
             ),
@@ -56,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
               controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: AppLocalizations.of(context)!.password,
                 border: OutlineInputBorder(),
               ),
             ),
@@ -65,10 +70,11 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: _login,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFB2A4D4),
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
               ),
-              child: const Text(
-                'Login',
+              child: Text(
+                AppLocalizations.of(context)!.login_title,
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
@@ -76,17 +82,21 @@ class _LoginPageState extends State<LoginPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Don\'t have an account? '),
+                Text(AppLocalizations.of(context)!.dont_have_an_account),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const SignUpPage()),
+                      MaterialPageRoute(
+                          builder: (context) => SignUpPage(
+                                changeLanguage: widget.changeLanguage,
+                              )),
                     );
                   },
-                  child: const Text(
-                    'Sign up',
-                    style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                  child: Text(
+                    AppLocalizations.of(context)!.signup,
+                    style: TextStyle(
+                        color: Colors.blue, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

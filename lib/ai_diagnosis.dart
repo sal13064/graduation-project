@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AiDiagnosisPage extends StatelessWidget {
   const AiDiagnosisPage({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class AiDiagnosisPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AI Diagnosis'),
+        title: Text(AppLocalizations.of(context)!.app_title),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Center(
@@ -32,7 +32,7 @@ class AiDiagnosisPage extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-              child: const Text('Survey'),
+              child: Text(AppLocalizations.of(context)!.survey_title),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -48,7 +48,7 @@ class AiDiagnosisPage extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
-              child: const Text('Upload Photos'),
+              child: Text(AppLocalizations.of(context)!.upload_images),
             ),
           ],
         ),
@@ -130,11 +130,14 @@ class _SurveyPageState extends State<SurveyPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Responses saved successfully!")),
+        SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.survey_saved_successfully)),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error saving responses: $e")),
+        SnackBar(
+            content: Text("${AppLocalizations.of(context)!.upload_error} $e")),
       );
     }
   }
@@ -146,15 +149,16 @@ class _SurveyPageState extends State<SurveyPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Survey Completed'),
-            content: const Text('Your responses have been saved successfully.'),
+            title: Text(AppLocalizations.of(context)!.survey_completed),
+            content:
+                Text(AppLocalizations.of(context)!.survey_saved_successfully),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 },
-                child: const Text('OK'),
+                child: Text(AppLocalizations.of(context)!.yes),
               ),
             ],
           );
@@ -171,7 +175,7 @@ class _SurveyPageState extends State<SurveyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Survey'),
+        title: Text(AppLocalizations.of(context)!.survey_title),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Center(
@@ -192,7 +196,7 @@ class _SurveyPageState extends State<SurveyPage> {
                   answers[surveyQuestions[currentQuestionIndex]['qID']!] = 1;
                   moveToNextQuestion();
                 },
-                child: const Text('Yes'),
+                child: Text(AppLocalizations.of(context)!.yes),
               ),
               const SizedBox(height: 10),
               ElevatedButton(
@@ -200,7 +204,7 @@ class _SurveyPageState extends State<SurveyPage> {
                   answers[surveyQuestions[currentQuestionIndex]['qID']!] = 0;
                   moveToNextQuestion();
                 },
-                child: const Text('No'),
+                child: Text(AppLocalizations.of(context)!.no),
               ),
             ],
           ),
@@ -222,7 +226,6 @@ class _UploadPhotosPageState extends State<UploadPhotosPage> {
   final ImagePicker _picker = ImagePicker();
   List<File> selectedImages = [];
   bool _isLoading = false;
-
   Future<void> pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -253,11 +256,12 @@ class _UploadPhotosPageState extends State<UploadPhotosPage> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Images uploaded successfully!")),
+        SnackBar(content: Text(AppLocalizations.of(context)!.upload_success)),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error uploading images: $e")),
+        SnackBar(
+            content: Text("${AppLocalizations.of(context)!.upload_error} $e")),
       );
     } finally {
       setState(() => _isLoading = false);
@@ -268,7 +272,7 @@ class _UploadPhotosPageState extends State<UploadPhotosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Upload Photos'),
+        title: Text(AppLocalizations.of(context)!.upload_photos_title),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Center(
@@ -277,7 +281,7 @@ class _UploadPhotosPageState extends State<UploadPhotosPage> {
           children: [
             ElevatedButton(
               onPressed: pickImage,
-              child: const Text('Pick Image'),
+              child: Text(AppLocalizations.of(context)!.pick_image),
             ),
             const SizedBox(height: 10),
             SizedBox(
@@ -302,7 +306,7 @@ class _UploadPhotosPageState extends State<UploadPhotosPage> {
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: uploadImagesToFirebase,
-                    child: const Text('Upload Images'),
+                    child: Text(AppLocalizations.of(context)!.upload_images),
                   ),
           ],
         ),

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:graduation/AboutUsScreen%20.dart';
+import 'package:graduation/PrivacyPolicyScreen%20.dart';
 import 'package:graduation/login.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  final Function(Locale) changeLanguage;
+
+  const Profile({super.key, required this.changeLanguage});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -27,7 +32,6 @@ class _ProfileState extends State<Profile> {
   Future<void> _loadUserData() async {
     try {
       final user = _auth.currentUser;
-
 
       if (user != null) {
         final userData =
@@ -60,9 +64,10 @@ class _ProfileState extends State<Profile> {
     try {
       await _auth.signOut();
       if (mounted) {
-        Navigator.pushReplacement(
+        Navigator.pushNamedAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
+          '/login',
+          (route) => false,
         );
       }
     } catch (e) {
@@ -74,7 +79,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: Text(AppLocalizations.of(context)!.profile),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: _isLoading
@@ -119,7 +124,7 @@ class _ProfileState extends State<Profile> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text("View Reports"),
+                      child: Text(AppLocalizations.of(context)!.view_reports),
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
@@ -137,7 +142,43 @@ class _ProfileState extends State<Profile> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text("Edit Profile"),
+                      child: Text(AppLocalizations.of(context)!.edit_profile),
+                    ),
+                    const SizedBox(height: 15),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrivacyPolicyScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFB2A4D4),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(AppLocalizations.of(context)!.privacyPolicy),
+                    ),
+                    const SizedBox(height: 15),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AboutUsScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFB2A4D4),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(AppLocalizations.of(context)!.aboutUs),
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
@@ -155,7 +196,7 @@ class _ProfileState extends State<Profile> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text("Rest Passwords"),
+                      child: Text(AppLocalizations.of(context)!.reset_password),
                     ),
                     const SizedBox(height: 15),
                     ElevatedButton(
@@ -167,8 +208,25 @@ class _ProfileState extends State<Profile> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: const Text("Log Out",
+                      child: Text(AppLocalizations.of(context)!.log_out,
                           style: TextStyle(color: Colors.white)),
+                    ),
+
+                    const SizedBox(height: 20),
+                    // Language change buttons
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => widget.changeLanguage(Locale('en')),
+                          child: Text('English'),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: () => widget.changeLanguage(Locale('ar')),
+                          child: Text('عربي'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -201,7 +259,7 @@ class ReportsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Reports"),
+        title: Text(AppLocalizations.of(context)!.view_reports),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Padding(
@@ -264,11 +322,15 @@ class EditProfile extends StatelessWidget {
   // Controllers to manage user input
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   // Function to update profile in Firestore
   Future<void> updateProfile(BuildContext context) async {
+    if (!context.mounted) return;
+
     try {
-      if (nameController.text.isEmpty || emailController.text.isEmpty) {
+      if (nameController.text.isEmpty || phoneNumberController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Please fill out all fields."),
@@ -280,11 +342,16 @@ class EditProfile extends StatelessWidget {
 
       String userId = FirebaseAuth.instance.currentUser!.uid;
 
+      // Reauthenticate the user before updating email
+
+      // Update Firestore with the new name and phone number
       await firestore.collection('user').doc(userId).update({
         'Username': nameController.text,
-        'PhoneNumber': emailController.text,
+        'Email': emailController.text,
+        'PhoneNumber': phoneNumberController.text,
       });
 
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Profile updated successfully!"),
@@ -292,12 +359,10 @@ class EditProfile extends StatelessWidget {
         ),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Failed to update profile: $e"),
-          backgroundColor: Colors.red,
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Failed to update profile: $e"),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -305,7 +370,7 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Profile"),
+        title: Text(AppLocalizations.of(context)!.edit_profile),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Padding(
@@ -318,7 +383,7 @@ class EditProfile extends StatelessWidget {
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                labelText: 'Name',
+                labelText: AppLocalizations.of(context)!.name_label,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -326,17 +391,18 @@ class EditProfile extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Email TextField
+            // Phone Number TextField
             TextField(
-              controller: emailController,
+              controller: phoneNumberController,
               decoration: InputDecoration(
-                labelText: 'Phone Number',
+                labelText: AppLocalizations.of(context)!.phoneNumber,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.phone, // Use phone number keyboard
             ),
+
             const SizedBox(height: 20),
 
             // Save Changes Button
@@ -349,7 +415,7 @@ class EditProfile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text("Save Changes"),
+              child: Text(AppLocalizations.of(context)!.saveChanges),
             ),
           ],
         ),
@@ -420,7 +486,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Reset Password"),
+        title: Text(AppLocalizations.of(context)!.reset_password),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Padding(
@@ -433,7 +499,7 @@ class _SettingsPageState extends State<SettingsPage> {
               controller: _currentPasswordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Current Password',
+                labelText: AppLocalizations.of(context)!.current_password,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -444,7 +510,7 @@ class _SettingsPageState extends State<SettingsPage> {
               controller: _newPasswordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'New Password',
+                labelText: AppLocalizations.of(context)!.new_password,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -455,7 +521,7 @@ class _SettingsPageState extends State<SettingsPage> {
               controller: _confirmPasswordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Confirm New Password',
+                labelText: AppLocalizations.of(context)!.new_password,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -473,7 +539,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text("Update Password"),
+                    child: Text(AppLocalizations.of(context)!.reset_password),
                   ),
           ],
         ),

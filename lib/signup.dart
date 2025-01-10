@@ -3,10 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'contentview.dart';
 import 'models/user_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  final Function(Locale) changeLanguage;
+  const SignUpPage({Key? key,required this.changeLanguage}) : super(key: key);
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -22,8 +23,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
-
- 
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
@@ -60,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const ContentView()),
+        MaterialPageRoute(builder: (context) =>  ContentView(changeLanguage: widget.changeLanguage,)),
       );
     } catch (e) {
       if (!mounted) return;
@@ -111,7 +110,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: Text(AppLocalizations.of(context)!.signup),
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Padding(
@@ -129,8 +128,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     if (!value!.contains('@')) return 'Invalid email';
                     return null;
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.email,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -143,8 +142,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     return null;
                   },
                   keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone Number',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.phoneNumber,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -155,8 +154,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     if (value?.isEmpty ?? true) return 'Username is required';
                     return null;
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Username',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.username,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -170,8 +169,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     return null;
                   },
                   obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.password,
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -185,8 +184,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 80),
                         ),
-                        child: const Text(
-                          'Register',
+                        child: Text(
+                          AppLocalizations.of(context)!.register,
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),

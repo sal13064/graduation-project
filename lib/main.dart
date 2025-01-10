@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:graduation/HomeScreen.dart';
+import 'package:graduation/OnboardingScreen%20.dart';
 import 'package:graduation/contentview.dart';
 import 'package:graduation/login.dart';
 import 'package:graduation/signup.dart';
 import 'profile.dart';
+// Import your OnboardingScreen here
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,19 +18,44 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en'); // Default language is Arabic
+
+  void _changeLanguage(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthWrapper(),
+      home: AuthWrapper(changeLanguage: _changeLanguage),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ar'),
+      ],
+      locale: _locale, // Dynamic locale change
       routes: {
-        '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignUpPage(),
-        '/contactview': (context) => const ContentView(),
-        '/profile': (context) => const Profile(),
+        '/login': (context) =>  LoginPage(changeLanguage:_changeLanguage,),
+        '/signup': (context) =>  SignUpPage(changeLanguage:_changeLanguage,),
+        '/contactview': (context) =>  ContentView(changeLanguage: _changeLanguage,),
+        '/profile': (context) =>  Profile(changeLanguage:  _changeLanguage,),
+        '/home': (context) => HomeScreen(changeLanguage: _changeLanguage),
       },
     );
   }
@@ -32,8 +63,14 @@ class MyApp extends StatelessWidget {
 
 class AuthWrapper extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Function(Locale) changeLanguage;
 
-  AuthWrapper({super.key});
+  AuthWrapper({super.key, required this.changeLanguage});
+
+  Future<bool> _checkIfOnboardingCompleted() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('onboarding_completed') ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,73 +82,27 @@ class AuthWrapper extends StatelessWidget {
         }
 
         if (snapshot.hasData && snapshot.data != null) {
-         
-          return const ContentView();
+          return  ContentView(changeLanguage:changeLanguage ,);
         }
 
-        
-        return const HomeScreen();
+        // Check if onboarding is completed
+        return FutureBuilder<bool>(
+          future: _checkIfOnboardingCompleted(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.data == true) {
+              // If onboarding completed, go to HomeScreen
+              return HomeScreen(changeLanguage: changeLanguage);
+            } else {
+              // If onboarding not completed, show OnboardingScreen
+              return OnboardingScreen();
+            }
+          },
+        );
       },
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/logo.jpg', width: 200, height: 200),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFB2A4D4),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/signup');
-              },
-              child: const Text(
-                'Sign Up',
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Already have an account? ",
-                    style: TextStyle(fontSize: 16)),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  child: const Text(
-                    'Log in',
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

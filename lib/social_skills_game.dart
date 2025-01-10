@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Import your localization
 
 class SocialSkillsGame extends StatefulWidget {
   const SocialSkillsGame({Key? key}) : super(key: key);
@@ -14,24 +18,26 @@ class _SocialSkillsGameState extends State<SocialSkillsGame> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   bool isPlayingSound = false;
   bool gameEnded = false;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final List<Map<String, dynamic>> scenarios = [
     {
-      "question": "How you will say hello?",
+      "question": "كيف ستقول مرحبا؟",
       "options": [
         {"image": "assets/hello.jpg", "isCorrect": true},
         {"image": "assets/ignore.jpg", "isCorrect": false},
       ],
     },
     {
-      "question": "How will you ask for help? ",
+      "question": "كيف ستطلب المساعدة؟",
       "options": [
         {"image": "assets/ask.jpg", "isCorrect": true},
         {"image": "assets/askshy.jpg", "isCorrect": false},
       ],
     },
     {
-      "question": "What would you do if you saw a toy with your friend? ",
+      "question": "ماذا ستفعل إذا رأيت لعبة مع صديقك؟",
       "options": [
         {"image": "assets/ask_share.png", "isCorrect": true},
         {"image": "assets/take_force.png", "isCorrect": false},
@@ -86,15 +92,16 @@ class _SocialSkillsGameState extends State<SocialSkillsGame> {
   }
 
   void showEndDialog() {
+    saveScoreToFirebase(score); // Save the score to Firebase
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Game Over!"),
+        title: Text(AppLocalizations.of(context)!.game_over),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Your score: $score من ${scenarios.length}",
+              "${score}/${scenarios.length}",
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -116,14 +123,14 @@ class _SocialSkillsGameState extends State<SocialSkillsGame> {
                 gameEnded = false;
               });
             },
-            child: const Text("Play again"),
+            child: Text(AppLocalizations.of(context)!.play_again),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.pop(context);
             },
-            child: const Text("Exit the game"),
+            child: Text(AppLocalizations.of(context)!.exit_game),
           ),
         ],
       ),
@@ -133,11 +140,48 @@ class _SocialSkillsGameState extends State<SocialSkillsGame> {
   String _calculatePerformance(int score, int total) {
     double percentage = (score / total) * 100;
     if (percentage >= 80) {
-      return "Awsome!";
+      return AppLocalizations.of(context)!.awesome; // Use localization
     } else if (percentage >= 50) {
-      return "Very Good!";
+      return AppLocalizations.of(context)!.very_good; // Use localization
     } else {
-      return "Try again!";
+      return AppLocalizations.of(context)!.try_again; // Use localization
+    }
+  }
+
+  Future<void> saveScoreToFirebase(int score) async {
+    String formattedTime = DateFormat('d/M/yyyy h:mma').format(DateTime.now());
+    String userId = _auth.currentUser?.uid ?? ''; // Ensure userId is not null
+
+    if (userId.isEmpty) {
+      print("User not logged in.");
+      return; // Prevent further actions if the user is not logged in
+    }
+
+    try {
+      QuerySnapshot userScores = await _firestore
+          .collection('scores')
+          .where('userId', isEqualTo: userId)
+          .where('gamename', isEqualTo: 'Social Skills Game')
+          .get();
+
+      if (userScores.docs.isNotEmpty) {
+        DocumentReference scoreDocRef = userScores.docs[0].reference;
+        await scoreDocRef.update({
+          'score': score,
+          'timestamp': formattedTime,
+        });
+        print("Score updated successfully!");
+      } else {
+        await _firestore.collection('scores').add({
+          'score': score,
+          "userId": userId,
+          'gamename': 'Social Skills Game',
+          'timestamp': formattedTime,
+        });
+        print("Score saved successfully!");
+      }
+    } catch (e) {
+      print("Failed to save or update score: $e");
     }
   }
 
@@ -147,7 +191,8 @@ class _SocialSkillsGameState extends State<SocialSkillsGame> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Social Skills Game"),
+        title:
+            Text(AppLocalizations.of(context)!.app_title4), // Use localization
         backgroundColor: const Color(0xFFB2A4D4),
       ),
       body: Center(
@@ -181,7 +226,7 @@ class _SocialSkillsGameState extends State<SocialSkillsGame> {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  "Score: $score",
+                  score.toString(), // Use localization
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
