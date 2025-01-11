@@ -214,20 +214,6 @@ class _ProfileState extends State<Profile> {
 
                     const SizedBox(height: 20),
                     // Language change buttons
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => widget.changeLanguage(Locale('en')),
-                          child: Text('English'),
-                        ),
-                        const SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => widget.changeLanguage(Locale('ar')),
-                          child: Text('عربي'),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),

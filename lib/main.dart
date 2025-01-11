@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         Locale('en'),
         Locale('ar'),
       ],
-      locale: _locale, // Dynamic locale change
+      locale:   Locale('en'),  // Dynamic locale change
       routes: {
         '/login': (context) =>  LoginPage(changeLanguage:_changeLanguage,),
         '/signup': (context) =>  SignUpPage(changeLanguage:_changeLanguage,),

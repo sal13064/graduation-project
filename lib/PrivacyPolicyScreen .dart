@@ -7,7 +7,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('سياسة الخصوصية'),
+        title: Text('Privacy Policy'),
         backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
@@ -16,150 +16,150 @@ class PrivacyPolicyScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'سياسة الخصوصية لتطبيق Spectrum Star',
+              'Privacy Policy for Spectrum Star App',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Text(
-              'نحن في تطبيق Spectrum Star نأخذ خصوصيتك على محمل الجد. تم تصميم هذه السياسة لتوضيح كيفية جمع واستخدام وحماية بياناتك الشخصية عند استخدامك لتطبيقنا. باستخدامك لتطبيقنا، فإنك توافق على الشروط والأحكام الواردة في سياسة الخصوصية هذه.',
+              'At Spectrum Star App, we take your privacy seriously. This policy is designed to clarify how we collect, use, and protect your personal data when using our app. By using our app, you agree to the terms and conditions outlined in this privacy policy.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '2. المعلومات التي نجمعها',
+              '2. Information We Collect',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '2.1 المعلومات التي يقدمها المستخدمون\n'
-              '- معلومات الحساب: مثل الاسم، عنوان البريد الإلكتروني، رقم الهاتف، وكلمة المرور عند التسجيل.\n'
-              '- معلومات الطفل: مثل اسم الطفل، تاريخ الميلاد، وأي معلومات صحية يتم إدخالها.',
+              '2.1 Information Provided by Users\n'
+              '- Account Information: such as name, email address, phone number, and password upon registration.\n'
+              '- Child Information: such as child’s name, date of birth, and any health information entered.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
-              '2.2 المعلومات التي يتم جمعها تلقائيًا\n'
-              '- البيانات التقنية: مثل نوع الجهاز، نظام التشغيل، وإصدار التطبيق.\n'
-              '- سجل الاستخدام: مثل مدة استخدام التطبيق، المميزات المستخدمة، وسجل الأنشطة.',
+              '2.2 Information Collected Automatically\n'
+              '- Technical Data: such as device type, operating system, and app version.\n'
+              '- Usage Logs: such as duration of app usage, features used, and activity logs.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
-              '2.3 معلومات إضافية\n'
-              '- الصور: يتم تحميل الصور لتحليلها باستخدام الذكاء الاصطناعي لتقديم تشخيص أولي.\n'
-              '- الموقع الجغرافي: يتم استخدامه لتحديد مراكز التوحد القريبة منك.',
+              '2.3 Additional Information\n'
+              '- Images: uploaded for analysis using AI to provide preliminary diagnoses.\n'
+              '- Geographic Location: used to identify nearby autism centers.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '3. كيفية استخدام المعلومات',
+              '3. How We Use the Information',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '3.1 تحسين التجربة\n'
-              '- تقديم خدمات التشخيص الأولي.\n'
-              '- توفير توصيات مخصصة ونصائح عملية.\n'
-              '- عرض مراكز التوحد القريبة بناءً على الموقع.',
+              '3.1 Enhancing the Experience\n'
+              '- Providing preliminary diagnostic services.\n'
+              '- Offering personalized recommendations and practical advice.\n'
+              '- Displaying nearby autism centers based on location.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
-              '3.2 التطوير والتحسين\n'
-              '- تحسين خوارزميات الذكاء الاصطناعي.\n'
-              '- تحليل بيانات الاستخدام لتطوير الميزات.',
+              '3.2 Development and Improvement\n'
+              '- Improving AI algorithms.\n'
+              '- Analyzing usage data to develop features.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '4. مشاركة المعلومات',
+              '4. Sharing Information',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '4.1 الأطراف الثالثة\n'
-              '- مزودي الخدمات: مثل خدمات السحابة أو تحليلات البيانات.\n'
-              '- مراكز التوحد: إذا طلبت تحديد موعد أو مشاركة تقرير.',
+              '4.1 Third Parties\n'
+              '- Service Providers: such as cloud services or data analytics.\n'
+              '- Autism Centers: if you request an appointment or share a report.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
-              '4.2 الالتزام القانوني\n'
-              '- نشارك المعلومات مع السلطات إذا كان ذلك مطلوبًا قانونيًا.',
+              '4.2 Legal Compliance\n'
+              '- We share information with authorities if legally required.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '5. حماية البيانات',
+              '5. Data Protection',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '- نستخدم تقنيات التشفير (SSL) لحماية نقل البيانات.\n'
-              '- يتم تخزين المعلومات في خوادم آمنة تتبع أفضل الممارسات في الصناعة.\n'
-              '- يتم تقييد الوصول إلى المعلومات الحساسة.',
+              '- We use encryption technologies (SSL) to protect data transmission.\n'
+              '- Information is stored on secure servers that follow industry best practices.\n'
+              '- Access to sensitive information is restricted.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '6. حقوق المستخدمين',
+              '6. Users\' Rights',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '- يمكنك الوصول إلى البيانات التي قمنا بجمعها.\n'
-              '- يمكنك تصحيح أو تحديث معلوماتك الشخصية.\n'
-              '- يمكنك طلب حذف بياناتك في أي وقت.',
+              '- You can access the data we have collected.\n'
+              '- You can correct or update your personal information.\n'
+              '- You can request the deletion of your data at any time.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '7. الاحتفاظ بالبيانات',
+              '7. Data Retention',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '- نحتفظ بالمعلومات طالما كانت ضرورية لتقديم الخدمات.\n'
-              '- يتم حذف البيانات عند طلب المستخدم أو عند توقف الخدمة.',
+              '- We retain information as long as necessary to provide services.\n'
+              '- Data is deleted upon user request or when the service is discontinued.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '8. سياسة الأطفال',
+              '8. Children\'s Policy',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '- نحن ملتزمون بحماية خصوصية الأطفال.\n'
-              '- يجب على الوالدين أو الأوصياء تقديم المعلومات ذات الصلة بالأطفال.\n'
-              '- يتم استخدام البيانات فقط لتحسين تجربة الطفل وتقديم التشخيصات الأولية.',
+              '- We are committed to protecting children\'s privacy.\n'
+              '- Parents or guardians must provide relevant information about children.\n'
+              '- Data is used only to enhance the child\'s experience and provide preliminary diagnoses.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '9. التعديلات على سياسة الخصوصية',
+              '9. Changes to the Privacy Policy',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              'قد نقوم بتحديث سياسة الخصوصية من وقت لآخر. سيتم إشعار المستخدمين بأي تغييرات مهمة من خلال التطبيق.',
+              'We may update the privacy policy from time to time. Users will be notified of any significant changes through the app.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              '10. الاتصال بنا',
+              '10. Contact Us',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              'إذا كان لديك أي أسئلة حول سياسة الخصوصية، يمكنك الاتصال بنا عبر:\n'
-              '- البريد الإلكتروني: support@spectrumstar.com\n'
-              '- رقم الهاتف: +966-XXX-XXXXXX',
+              'If you have any questions about the privacy policy, you can contact us via:\n'
+              '- Email: support@spectrumstar.com\n'
+              '- Phone: +966-XXX-XXXXXX',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              'باستخدامك للتطبيق، فإنك توافق على الشروط الواردة أعلاه. نلتزم بحماية بياناتك الشخصية وضمان استخدامها بطريقة شفافة ومسؤولة.',
+              'By using the app, you agree to the terms outlined above. We are committed to protecting your personal data and ensuring it is used transparently and responsibly.',
               style: TextStyle(fontSize: 16),
             ),
           ],

@@ -7,7 +7,7 @@ class AboutUsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('من نحن؟'),
+        title: Text('About Us'),
         backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
@@ -16,46 +16,46 @@ class AboutUsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'في Spectrum Star!',
+              'Welcome to Spectrum Star!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Text(
-              'نحن هنا لنكون شريكك في رحلة دعم طفلك المصاب بطيف التوحد. من خلال أدواتنا السهلة والممتعة، نساعدك على اكتشاف طرق جديدة لفهم احتياجات طفلك وتطوير مهاراته. ابدأ رحلتك الآن، لأن كل خطوة تُحدث فرقًا!',
+              'We are here to be your partner in supporting your child with autism spectrum disorder. Through our easy and fun tools, we help you discover new ways to understand your child’s needs and develop their skills. Start your journey now, because every step makes a difference!',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              'الخدمات التي يقدمها التطبيق',
+              'Services Offered by the App',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '1. تشخيص أولي باستخدام الذكاء الاصطناعي:\n'
-              '- رفع صور لطفلك لتحليل سلوكياته وتقديم تقرير أولي يساعدك على فهم حالته.',
+              '1. Preliminary Diagnosis Using AI:\n'
+              '- Upload pictures of your child to analyze their behaviors and provide a preliminary report to help you understand their condition.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
-              '2. ألعاب تعليمية ممتعة:\n'
-              '- ألعاب مصممة لتحفيز طفلك على تطوير مهاراته الاجتماعية وتعليمية.',
+              '2. Fun Educational Games:\n'
+              '- Games designed to motivate your child to develop their social and educational skills.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
-              '3. معلومة مفيدة:\n'
-              '- إرشادات عملية تساعدك في التعامل مع طفلك وتحسين جودة حياته.',
+              '3. Useful Information:\n'
+              '- Practical guidelines to help you manage your child and improve their quality of life.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
-              '4. البحث عن مراكز التوحد القريبة:\n'
-              '- خدمة تحديد المواقع لتسهيل الوصول إلى مراكز متخصصة بالقرب منك.',
+              '4. Find Nearby Autism Centers:\n'
+              '- Location services to facilitate access to specialized centers near you.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             Text(
-              'ابدأ استخدام التطبيق الآن لتجربة أدواتنا المبتكرة التي صُممت لجعل حياة عائلتك أسهل وأكثر دعمًا.',
+              'Start using the app now to experience our innovative tools designed to make your family’s life easier and more supportive.',
               style: TextStyle(fontSize: 16),
             ),
           ],

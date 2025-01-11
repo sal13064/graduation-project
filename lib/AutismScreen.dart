@@ -16,7 +16,7 @@ class AutismScreen extends StatelessWidget {
             children: [
               // Introductory Text
               Text(
-                'ما هو طيف التوحد؟',
+                'What is Autism Spectrum Disorder?',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -24,7 +24,7 @@ class AutismScreen extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                'طيف التوحد هو اضطراب نمائي يؤثر على كيفية تواصل الشخص وتفاعله مع الآخرين. يختلف من طفل لآخر في درجة وشدة الأعراض. يمكن أن يكون التوحد خفيفًا أو شديدًا، ويتميز الأطفال المصابون به بأنماط سلوكية متكررة وصعوبة في التواصل الاجتماعي. لكن كل طفل فريد بطريقته الخاصة.',
+                'Autism Spectrum Disorder (ASD) is a developmental disorder that affects how a person communicates and interacts with others. The degree and severity of symptoms vary from one child to another. Autism can range from mild to severe, characterized by repetitive behaviors and difficulties in social communication. However, every child is unique in their own way.',
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(height: 16),
@@ -32,7 +32,7 @@ class AutismScreen extends StatelessWidget {
               // Expandable Sections for Different Topics
               ExpansionTile(
                 title: Text(
-                  'أنواع طيف التوحد',
+                  'Types of Autism Spectrum Disorder',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 children: [
@@ -40,30 +40,36 @@ class AutismScreen extends StatelessWidget {
                     elevation: 4,
                     child: ListTile(
                       title: Text(
-                        '1. التوحد الكلاسيكي',
+                        '1. Classic Autism',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text('التوحد الكلاسيكي هو الشكل الأكثر شيوعًا من اضطراب طيف التوحد. يتسم بوجود تحديات واضحة في التواصل الاجتماعي، صعوبات في فهم العواطف أو تعبيرها، وسلوكيات متكررة.'),
+                      subtitle: Text(
+                        'Classic autism is the most common form of ASD. It is characterized by noticeable challenges in social communication, difficulties understanding or expressing emotions, and repetitive behaviors.',
+                      ),
                     ),
                   ),
                   Card(
                     elevation: 4,
                     child: ListTile(
                       title: Text(
-                        '2. متلازمة أسبرجر',
+                        '2. Asperger Syndrome',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text('متلازمة أسبرجر هي نوع من أنواع طيف التوحد، حيث لا يكون هناك تأخر في تطور اللغة أو الذكاء، لكن الطفل يواجه صعوبة في فهم تلميحات التواصل الاجتماعي.'),
+                      subtitle: Text(
+                        'Asperger syndrome is a type of ASD where there is no delay in language or intelligence development, but the child struggles with understanding social cues.',
+                      ),
                     ),
                   ),
                   Card(
                     elevation: 4,
                     child: ListTile(
                       title: Text(
-                        '3. اضطراب النمو الشامل غير المحدد (PDD-NOS)',
+                        '3. Pervasive Developmental Disorder-Not Otherwise Specified (PDD-NOS)',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text('اضطراب النمو الشامل غير المحدد يشمل الأطفال الذين يظهرون بعض أعراض التوحد، لكن ليس لديهم جميع الأعراض المحددة للتوحد الكلاسيكي أو متلازمة أسبرجر. يمكن أن تظهر لديهم صعوبة في التواصل أو التفاعل الاجتماعي.'),
+                      subtitle: Text(
+                        'PDD-NOS includes children who exhibit some autism symptoms but do not fully meet the criteria for classic autism or Asperger syndrome. These children may have challenges in communication or social interaction.',
+                      ),
                     ),
                   ),
                 ],
@@ -73,18 +79,23 @@ class AutismScreen extends StatelessWidget {
               // Risk Factors
               ExpansionTile(
                 title: Text(
-                  'من هو الأكثر عرضة للإصابة بطيف التوحد؟',
+                  'Who is at Risk of Autism?',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 children: [
                   ListTile(
-                    title: Text('• الأطفال الذكور: هم أكثر عرضة للإصابة من الإناث.'),
+                    title: Text(
+                        '• Boys: They are more likely to develop autism than girls.'),
                   ),
                   ListTile(
-                    title: Text('• التاريخ العائلي: وجود إصابة سابقة في العائلة يمكن أن يزيد من احتمالية الإصابة.'),
+                    title: Text(
+                      '• Family History: A history of autism in the family increases the risk.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('• العوامل الجينية والبيئية: مثل تعرض الأم لعدوى أو مواد كيميائية أثناء الحمل.'),
+                    title: Text(
+                      '• Genetic and Environmental Factors: Such as maternal infections or exposure to chemicals during pregnancy.',
+                    ),
                   ),
                 ],
               ),
@@ -93,15 +104,19 @@ class AutismScreen extends StatelessWidget {
               // Age Range for Autism Symptoms
               ExpansionTile(
                 title: Text(
-                  'الأعمار التي يظهر فيها طيف التوحد',
+                  'Age of Autism Onset',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 children: [
                   ListTile(
-                    title: Text('• تبدأ الأعراض في الغالب بالظهور بين عمر 18 شهرًا و3 سنوات.'),
+                    title: Text(
+                      '• Symptoms often appear between 18 months and 3 years of age.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('• قد تظهر العلامات المبكرة مثل تأخر الكلام أو صعوبة التفاعل الاجتماعي، مما يساعد في التشخيص المبكر.'),
+                    title: Text(
+                      '• Early signs like delayed speech or difficulty in social interaction can aid in early diagnosis.',
+                    ),
                   ),
                 ],
               ),
@@ -110,18 +125,24 @@ class AutismScreen extends StatelessWidget {
               // Tips for Dealing with Autism
               ExpansionTile(
                 title: Text(
-                  'كيفية التعامل مع طفل مصاب بطيف التوحد',
+                  'How to Support a Child with Autism',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 children: [
                   ListTile(
-                    title: Text('1. التواصل بطرق مختلفة: استخدام أساليب بسيطة ومباشرة، مع استخدام الصور والإشارات لتسهيل التفاعل. منح الطفل وقتًا كافيًا للتعبير عن نفسه.'),
+                    title: Text(
+                      '1. Communicate in simple, direct ways using pictures or gestures to make interaction easier. Give the child enough time to express themselves.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('2. الروتين: تأكد من وجود روتين يومي ثابت يساعد الطفل على الشعور بالأمان. أبلغ الطفل مسبقًا بأي تغييرات في الجدول لضمان استقرار الحالة النفسية.'),
+                    title: Text(
+                      '2. Establish Routines: Ensure a consistent daily routine to provide the child with a sense of security. Notify them of any schedule changes in advance to maintain stability.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('3. الدعم النفسي: التحلي بالصبر والتفهم، وتشجيع الطفل على التعبير عن مشاعره وأفكاره. توفير بيئة دافئة ومحبة تدعم نموه الاجتماعي.'),
+                    title: Text(
+                      '3. Provide Emotional Support: Be patient and understanding, encouraging the child to express their feelings and thoughts in a warm, supportive environment.',
+                    ),
                   ),
                 ],
               ),
@@ -130,41 +151,55 @@ class AutismScreen extends StatelessWidget {
               // Treatment and Management
               ExpansionTile(
                 title: Text(
-                  'العلاج وإدارة الحالة',
+                  'Treatment and Management',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 children: [
                   ListTile(
-                    title: Text('• العلاج السلوكي: يركز على تعزيز المهارات الاجتماعية وتقليل السلوكيات غير المرغوب فيها، مثل تكرار الأفعال أو العزلة.'),
+                    title: Text(
+                      '• Behavioral Therapy: Focuses on improving social skills and reducing unwanted behaviors like repetitive actions or isolation.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('• العلاج الوظيفي: يساعد الطفل على تطوير مهارات الحياة اليومية مثل الأكل، اللبس، واستخدام المرحاض.'),
+                    title: Text(
+                      '• Occupational Therapy: Helps the child develop daily life skills such as eating, dressing, and using the toilet.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('• العلاج النفسي: يعمل على تحسين المهارات الاجتماعية، والتخفيف من القلق المرتبط بالتوحد.'),
+                    title: Text(
+                      '• Psychological Therapy: Works to improve social skills and alleviate autism-related anxiety.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('• العلاج الدوائي: يُستخدم لتقليل أعراض مثل القلق أو فرط الحركة، مع إشراف طبي.'),
+                    title: Text(
+                      '• Medication: Used to manage symptoms like anxiety or hyperactivity, under medical supervision.',
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 16),
 
-              // When to visit the doctor
+              // When to Visit the Doctor
               ExpansionTile(
                 title: Text(
-                  'متى يجب زيارة الطبيب؟',
+                  'When to Consult a Doctor?',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 children: [
                   ListTile(
-                    title: Text('• تأخر في التطور: إذا لاحظت تأخرًا في مهارات الطفل اللغوية أو الاجتماعية.'),
+                    title: Text(
+                      '• Delayed Development: If there are delays in language or social skills.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('• صعوبة في التواصل: مثل عدم الاستجابة للأسماء أو الأوامر البسيطة.'),
+                    title: Text(
+                      '• Difficulty Communicating: Such as not responding to names or simple commands.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('• سلوكيات مفرطة: مثل تكرار حركات أو نوبات غضب شديدة.'),
+                    title: Text(
+                      '• Excessive Behaviors: Like repetitive movements or severe tantrums.',
+                    ),
                   ),
                 ],
               ),
@@ -173,15 +208,19 @@ class AutismScreen extends StatelessWidget {
               // Features of an Autistic Child
               ExpansionTile(
                 title: Text(
-                  'ما يميز طفل التوحد؟',
+                  'What Makes a Child with Autism Unique?',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 children: [
                   ListTile(
-                    title: Text('• قد يظهر لدى بعض الأطفال مهارات فنية أو رياضية متميزة.'),
+                    title: Text(
+                      '• Some children may display exceptional artistic or athletic abilities.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('• طريقة تفكيرهم وإبداعهم يمكن أن تكون فريدة، مما قد يجعلهم يظهرون بمواهب خاصة في مجالات معينة.'),
+                    title: Text(
+                      '• Their unique way of thinking and creativity can make them stand out with special talents in specific areas.',
+                    ),
                   ),
                 ],
               ),
@@ -190,18 +229,24 @@ class AutismScreen extends StatelessWidget {
               // Tips for Parents
               ExpansionTile(
                 title: Text(
-                  'نصائح للأهل',
+                  'Tips for Parents',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 children: [
                   ListTile(
-                    title: Text('1. تقبَّل طفلك كما هو: فهم احتياجاته وتقديم الدعم في كل مرحلة من مراحل نموه.'),
+                    title: Text(
+                      '1. Accept your child as they are: Understand their needs and provide support at every stage of their development.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('2. الانضمام إلى مجموعات دعم: مشاركة التجارب مع الآخرين يمكن أن تكون مفيدة جدًا.'),
+                    title: Text(
+                      '2. Join Support Groups: Sharing experiences with others can be very helpful.',
+                    ),
                   ),
                   ListTile(
-                    title: Text('3. طلب الدعم المهني: التوجه إلى مختصين في التوحد للحصول على استراتيجيات لتحسين مهارات الطفل وتطوره.'),
+                    title: Text(
+                      '3. Seek Professional Help: Reach out to autism specialists to get strategies for improving the child’s skills and development.',
+                    ),
                   ),
                 ],
               ),

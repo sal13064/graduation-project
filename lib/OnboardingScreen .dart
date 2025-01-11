@@ -15,18 +15,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         controller: _pageController,
         children: [
           _buildOnboardingPage(
-            title: "مرحبًا بك في Spectrum Star!",
+            title: "Welcome to Spectrum Star!",
             description:
-                "نحن هنا لنكون شريكك في رحلة دعم طفلك المصاب بطيف التوحد.",
+                "We are here to be your partner in supporting your child with autism spectrum disorder.",
           ),
           _buildOnboardingPage(
-            title: "أدواتنا سهلة وممتعة",
+            title: "Our tools are easy and fun",
             description:
-                "من خلال أدواتنا السهلة والممتعة، نساعدك على اكتشاف طرق جديدة لفهم احتياجات طفلك وتطوير مهاراته.",
+                "With our easy and fun tools, we help you discover new ways to understand your child's needs and develop their skills.",
           ),
           _buildOnboardingPage(
-            title: "ابدأ رحلتك الآن!",
-            description: "ابدأ رحلتك الآن، لأن كل خطوة تُحدث فرقًا!",
+            title: "Start your journey now!",
+            description:
+                "Start your journey now, because every step makes a difference!",
             showStartButton: true,
           ),
         ],
@@ -77,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Navigator.pushReplacementNamed(context, '/home');
                 },
                 child: const Text(
-                  'ابدأ الآن',
+                  'Start Now',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,

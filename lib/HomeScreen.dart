@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class HomeScreen extends StatelessWidget {
   final Function(Locale) changeLanguage;
 
@@ -22,7 +23,8 @@ class HomeScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
               ),
               onPressed: () {
                 Navigator.pushNamed(context, '/signup');
@@ -57,20 +59,6 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             // Language change buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () => changeLanguage(Locale('en')),
-                  child: Text('English'),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () => changeLanguage(Locale('ar')),
-                  child: Text('عربي'),
-                ),
-              ],
-            ),
           ],
         ),
       ),
